@@ -27,7 +27,7 @@ spring:
       org.quartz.jobStore.clusterCheckinInterval: 1000
     jdbc:
       platform: postgres
-      initialize-schema: always
+      initialize-schema: never
   sql:
     init:
       platform: POSTGRESQL
