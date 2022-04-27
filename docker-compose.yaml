@@ -37,6 +37,28 @@ services:
       PG_HOST: postgresdb
     volumes:
       - ./init-db.sql:/docker-entrypoint-initdb.d/init-db.sql
+
+  scheduler-1:
+    image: scheduler
+    restart: on-failure
+    ports:
+      - "8081:8080"
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/ieeedb?useSSL=false
+    depends_on:
+      postgresdb:
+        condition: service_healthy
+
+  scheduler-2:
+    image: scheduler
+    ports:
+      - "8082:8080"
+    restart: on-failure
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/ieeedb?useSSL=false
+    depends_on:
+      postgresdb:
+        condition: service_healthy
 volumes:
   ieee2030postgresql:
     external: false
